@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Web Sockets App</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+            
+            var ws = new WebSocket("ws://"+window.location.host+"/mywebsocketsapp/echo");
+            
+            ws.onopen = function() {
+                var messageArea = document.getElementById("messages");
+                messageArea.value += "Socket Opened\r\n";
+            }
+            
+            ws.onmessage = function(evt) {
+                var messageArea = document.getElementById("messages");
+                messageArea.value += evt.data + "\r\n";
+            }
+            
+            ws.onclose = function() {
+                var messageArea = document.getElementById("messages");
+                messageArea.value += "Socket Closed\r\n";                
+            }
+            
+            function sendMessage() {
+                var message = document.getElementById("message").value;
+                ws.send(message);
+            }
+            
+         </script>
+        
+    </head>
+    <body>  
+        
+        <h1>My Web Sockets App</h1>
+
+        <div>
+            <input type="text" id="message"/>
+            <button type="button" onclick="sendMessage();">Send</button>
+        </div>
+        <div>
+            <textarea id="messages" cols="60" rows="10"></textarea>
+        </div>
+
+        The "Socket Opened" message means a successfull web sockets handshake was achieved.
+    </body>
+</html>
